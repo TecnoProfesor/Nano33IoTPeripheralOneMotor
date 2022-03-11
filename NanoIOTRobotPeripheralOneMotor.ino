@@ -51,50 +51,58 @@ void loop() {
     Serial.println(central.address());
     int movement = 0;
     const int timestop = 200;
+    byte antvalue = (byte)0x00;
     while (central.connected()) {
       digitalWrite( BLE_LED_PIN, HIGH );
       
       byte perValue = (byte)0x00;
       switchCharacteristic.readValue(perValue);
+      if (antvalue == perValue) {perValue = -1;}
+      else {antvalue = perValue;}
       switch (perValue) {
         case 1: //Go backwards
-          // L293D
-          // Stop both motors
-          digitalWrite(7,LOW);
-          digitalWrite(8,LOW);
-          digitalWrite(9,LOW);
-          delay(timestop);
-          Serial.println("Avanzar");
+          if ((movement == 1) or (movement > 2)) {
+            // L293D
+            // Stop both motors
+            digitalWrite(7,LOW);
+            digitalWrite(8,LOW);
+            digitalWrite(9,LOW);
+            delay(timestop);
+          }
+          Serial.println("Red");  
+          movement = 2;
           // Leds
           digitalWrite(2,LOW);
           digitalWrite(4,LOW);
-          digitalWrite(6,HIGH);
-          // Motor
+          digitalWrite(6,HIGH);          
+          
           digitalWrite(7,HIGH);
           digitalWrite(8,HIGH);
           digitalWrite(9,LOW);
           break;
         case 2: //Go forward
-          // L293D
-          // Stop both motors
-          digitalWrite(7,LOW);
-          digitalWrite(8,LOW);
-          digitalWrite(9,LOW);
-          delay(timestop);
-          Serial.println("Retroceder");
+          if (movement >= 2) {
+            // L293D
+            // Stop both motors
+            digitalWrite(7,LOW);
+            digitalWrite(8,LOW);
+            digitalWrite(9,LOW);
+            delay(timestop);
+          }
+          Serial.println("Blue");
           movement = 1;
           // Leds
           digitalWrite(2,LOW);
           digitalWrite(4,HIGH);
           digitalWrite(6,LOW);
-          // Motor
-          digitalWrite(7,HIGH);
-          digitalWrite(8,LOW);       
+          
+          digitalWrite(7,HIGH);          
+          digitalWrite(8,LOW);
           digitalWrite(9,HIGH);
           break;
         case 3: //Stop robot
           movement = 0;
-          Serial.println("Parar");
+          Serial.println("Green");
           // Leds
           digitalWrite(2,HIGH);
           digitalWrite(4,LOW);
@@ -117,6 +125,9 @@ void loop() {
     digitalWrite(2,LOW);
     digitalWrite(4,LOW);
     digitalWrite(6,LOW);
+    digitalWrite(7,LOW);
+    digitalWrite(8,LOW);
+    digitalWrite(9,LOW);
     Serial.print(F("Disconnected from central: "));
     Serial.println(central.address());
     digitalWrite( BLE_LED_PIN, LOW );
