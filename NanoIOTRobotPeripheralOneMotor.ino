@@ -71,7 +71,7 @@ void loop() {
           digitalWrite(6,HIGH);
           // Motor
           digitalWrite(7,HIGH);
-          digitalWrite(8,HIGH)
+          digitalWrite(8,HIGH);
           digitalWrite(9,LOW);
           break;
         case 2: //Go forward
