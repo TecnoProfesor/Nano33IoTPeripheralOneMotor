@@ -58,44 +58,43 @@ void loop() {
       switchCharacteristic.readValue(perValue);
       switch (perValue) {
         case 1: //Go backwards
-          if ((movement == 1) or (movement > 2)) {
-            // L293D
-            // Stop both motors
-            digitalWrite(7,LOW);
-            digitalWrite(8,LOW);
-            digitalWrite(9,LOW);
-            delay(timestop);
-          }
-          Serial.println("Red");
-          movement = 2;
+          // L293D
+          // Stop both motors
+          digitalWrite(7,LOW);
+          digitalWrite(8,LOW);
+          digitalWrite(9,LOW);
+          delay(timestop);
+          Serial.println("Avanzar");
           // Leds
           digitalWrite(2,LOW);
           digitalWrite(4,LOW);
-          digitalWrite(6,HIGH);          
+          digitalWrite(6,HIGH);
+          // Motor
           digitalWrite(7,HIGH);
-          digitalWrite(9,HIGH);
+          digitalWrite(8,HIGH)
+          digitalWrite(9,LOW);
           break;
         case 2: //Go forward
-          if (movement >= 2) {
-            // L293D
-            // Stop both motors
-            digitalWrite(7,LOW);
-            digitalWrite(8,LOW);
-            digitalWrite(9,LOW);
-            delay(timestop);
-          }
-          Serial.println("Blue");
+          // L293D
+          // Stop both motors
+          digitalWrite(7,LOW);
+          digitalWrite(8,LOW);
+          digitalWrite(9,LOW);
+          delay(timestop);
+          Serial.println("Retroceder");
           movement = 1;
           // Leds
           digitalWrite(2,LOW);
           digitalWrite(4,HIGH);
           digitalWrite(6,LOW);
-          digitalWrite(7,HIGH);          
-          digitalWrite(8,HIGH);
+          // Motor
+          digitalWrite(7,HIGH);
+          digitalWrite(8,LOW);       
+          digitalWrite(9,HIGH);
           break;
         case 3: //Stop robot
           movement = 0;
-          Serial.println("Green");
+          Serial.println("Parar");
           // Leds
           digitalWrite(2,HIGH);
           digitalWrite(4,LOW);
